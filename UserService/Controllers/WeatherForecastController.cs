@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using UserService.Consumers;
 
 namespace UserService.Controllers;
 
@@ -28,5 +29,11 @@ public class WeatherForecastController : ControllerBase
             Summary = Summaries[Random.Shared.Next(Summaries.Length)]
         })
         .ToArray();
+    }
+
+    [HttpGet("[action]")]
+    public IActionResult Responses()
+    {
+        return Ok(DataTransfer01Consumer.ResponseBag);
     }
 }
