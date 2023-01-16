@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MassTransit;
+using DataTransfer;
 
 namespace ProviderService.Controllers;
 
@@ -48,15 +49,10 @@ public class WeatherForecastController : ControllerBase
         .ToArray();
     }
 
-    public class PostData
-    {
-        public int Value { get; set; }
-    }
-
     [HttpPost]
-    public async Task<IActionResult> PostAsync(PostData input)
+    public async Task<IActionResult> PostAsync(DataTransfer01 input)
     {
-        var output = new PostData
+        var output = new DataTransfer01
         {
             Value = input.Value > 0 ? input.Value * 2 : -1,
         };
