@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MassTransit;
 
 namespace ProviderService.Controllers;
 
@@ -11,15 +12,15 @@ public class WeatherForecastController : ControllerBase
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-    //private readonly IPublishEndpoint _publishEndpoint;
+    private readonly IPublishEndpoint _publishEndpoint;
     private readonly ILogger<WeatherForecastController> _logger;
 
     public WeatherForecastController(
-        //IPublishEndpoint publishEndpoint,
+        IPublishEndpoint publishEndpoint,
         ILogger<WeatherForecastController> logger
     )
     {
-        //_publishEndpoint = publishEndpoint;
+        _publishEndpoint = publishEndpoint;
         _logger = logger;
     }
 
@@ -60,7 +61,7 @@ public class WeatherForecastController : ControllerBase
             Value = input.Value > 0 ? input.Value * 2 : -1,
         };
 
-        //await _publishEndpoint.Publish(output);
+        await _publishEndpoint.Publish(output);
 
         return StatusCode(201, output);
     }
